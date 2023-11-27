@@ -1,12 +1,16 @@
 import { useRoutes, BrowserRouter } from "react-router-dom";
+import Home from "./pages/Home/Home";
 import "./App.scss";
+import Facturacion from "./pages/Facturacion/Facturacion";
+import Consulta from "./pages/Consulta/Consulta";
+import NotFound from "./pages/NotFound/NotFound";
 
 const AppRoutes = () => {
   const routes = useRoutes([
-    { path: "/", element: <h1>Home</h1> },
-    { path: "/facturacion", element: <h1>Facturacion</h1> },
-    { path: "/consulta", element: <h1>Consulta</h1> },
-    { path: "/*", element: <h1>Not Found</h1> },
+    { path: "/", element: <Home /> },
+    { path: "/facturacion", element: <Facturacion /> },
+    { path: "/consulta", element: <Consulta /> },
+    { path: "/*", element: <NotFound /> },
   ]);
   return routes;
 };
