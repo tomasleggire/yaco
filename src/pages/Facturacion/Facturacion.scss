@@ -1,0 +1,11 @@
+.main-facturacion {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-top: 2rem;
+    h2 {
+      margin-bottom: 1rem;
+    }
+}
