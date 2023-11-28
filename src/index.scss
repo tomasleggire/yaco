@@ -6,6 +6,23 @@
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%;
+  min-height: auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:active {
+  outline: none;
+}
+
 body {
   background-color: $white-yaco;
 }

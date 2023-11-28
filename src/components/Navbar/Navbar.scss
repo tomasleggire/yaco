@@ -1,0 +1,23 @@
+.logo-navbar {
+    max-width: 140px;
+    margin-right: 15px;
+}
+
+.logo-navbar-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 900px) {
+    .logo-navbar {
+        display: none;
+    }
+    .logo-navbar-mobile {
+        display: flex;
+        width: 100%;
+        max-width: 140px;
+    }
+}
+
+.miAppBar {
+    background-color: red;
+  }
