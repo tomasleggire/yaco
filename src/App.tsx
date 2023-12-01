@@ -1,4 +1,5 @@
 import { useRoutes, BrowserRouter } from "react-router-dom";
+import { MyContextProvider } from "./domain/context/FacturacionContext";
 import Home from "./pages/Home/Home";
 import Facturacion from "./pages/Facturacion/Facturacion";
 import Consulta from "./pages/Consulta/Consulta";
@@ -20,10 +21,12 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <AppRoutes />
-    </BrowserRouter>
+    <MyContextProvider>
+      <BrowserRouter>
+        <Navbar />
+        <AppRoutes />
+      </BrowserRouter>
+    </MyContextProvider>
   );
 }
 

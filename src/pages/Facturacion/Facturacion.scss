@@ -15,12 +15,24 @@
   h2 {
     margin-bottom: 1rem;
   }
-  .btn-clear-list {
-    margin-top: 1rem;
-  }
-  .btn-send {
-    margin-top: auto;
-  }
+}
+
+.main-facturacion-botones-superiores {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.main-facturacion-botones-inferiores {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
 }
 
 .main-facturacion-tablas {

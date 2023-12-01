@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useContext } from "react";
+import { MyContext } from "../../domain/context/FacturacionContext";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -14,93 +15,22 @@ import {
   TableRow,
 } from "@mui/material";
 
-type FileData = {
-  file: File;
-  content: string[];
-};
-
-type FacturaType = {
-  numeroDeFactura: string;
-  nombre: string;
-  numeroDeCliente: string;
-  fecha: string;
-  importe: string;
-};
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 export default function Facturacion() {
-  const [filesData, setFilesData] = useState<FileData[]>([]);
-  const [facturasProcesadas, setFacturasProcesadas] = useState<FacturaType[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleFileEvent = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsLoading(true);
-    handleClearFiles();
-    const chosenFiles = Array.from(e.target.files || []);
-    await handleUploadFiles(chosenFiles);
-    setIsLoading(false);
-  };
-
-  const handleUploadFiles = async (files: File[]) => {
-    const newFilesData: FileData[] = [];
-    for (const file of files) {
-      if (!filesData.find((f) => f.file.name === file.name)) {
-        const content = await readFileAsText(file);
-        newFilesData.push({ file, content: content.split(";") });
-      }
-    }
-    setFilesData(newFilesData);
-    procesarFacturas(newFilesData);
-  };
-
-  const readFileAsText = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsText(file);
-    });
-  };
-
-  const procesarFacturas = (newFilesData: FileData[]) => {
-    const nuevasFacturas: FacturaType[] = newFilesData.map(({ content }) => ({
-      numeroDeFactura: content[0],
-      nombre: content[1],
-      numeroDeCliente: content[2],
-      fecha: content[3],
-      importe: content[4],
-    }));
-    setFacturasProcesadas(nuevasFacturas);
-  };
-
-  const handleClearFiles = () => {
-    setFilesData([]);
-    setFacturasProcesadas([]);
-  };
-
-  const handleEnviarArchivos = () => {
-    console.log("Archivos subidos");
-    handleClearFiles();
-  };
+  const {
+    isLoading,
+    fileContent,
+    facturasProcesadas,
+    handleFileInputChange,
+    procesarFacturas,
+    handleClearFiles,
+    handleEnviarArchivos,
+  } = useContext(MyContext);
 
   return (
     <div className="main-facturacion">
       <div className="main-facturacion-botones">
         <h2>Seleccione los documentos de texto:</h2>
-        <div>
+        <div className="main-facturacion-botones-superiores">
           <Button
             component="label"
             variant="contained"
@@ -111,26 +41,36 @@ export default function Facturacion() {
               type="file"
               multiple
               accept="text/plain"
-              onChange={handleFileEvent}
+              onChange={handleFileInputChange}
             />
           </Button>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={procesarFacturas}
+          >
+            Procesar Facturas
+          </Button>
         </div>
-        <Button
-          variant="contained"
-          disableElevation
-          className="btn-clear-list"
-          onClick={handleClearFiles}
-        >
-          Vaciar Listado
-        </Button>
-        <Button
-          variant="contained"
-          disableElevation
-          className="btn-send"
-          onClick={handleEnviarArchivos}
-        >
-          Enviar Archivos
-        </Button>
+        <p>
+          Facturas seleccionadas: <strong>{fileContent.length}</strong>
+        </p>
+        <div className="main-facturacion-botones-inferiores">
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={handleClearFiles}
+          >
+            Vaciar Listado
+          </Button>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={handleEnviarArchivos}
+          >
+            Enviar Archivos
+          </Button>
+        </div>
       </div>
       <Divider orientation="vertical" />
       <div className="main-facturacion-tablas">
@@ -146,9 +86,9 @@ export default function Facturacion() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {facturasProcesadas.map((factura) => (
+              {facturasProcesadas.map((factura: FacturaType, index: number) => (
                 <TableRow
-                  key={factura.numeroDeFactura}
+                  key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
@@ -168,3 +108,15 @@ export default function Facturacion() {
     </div>
   );
 }
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
