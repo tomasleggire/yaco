@@ -4,12 +4,13 @@
     justify-content: center;
     align-items: center;
     padding: 2rem;
+    height: calc(100vh - 5rem);
 }
 
 .main-consulta-date {
     display: flex;
     width: 100%;
-    margin: 2rem 0;
+    margin: 1rem 0;
     justify-content: space-around;
     max-width: 40rem;
     div {
@@ -21,5 +22,6 @@
 
 .main-consulta-tabla {
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    overflow-y: auto;
 }
